@@ -1,35 +1,29 @@
 import { commonAxios } from '../utils/api';
 
 export const getItems = async ({ searchText, pageSize, currentPage }) => {
-  const data = await commonAxios.get('items', {
+  return await commonAxios.get('items', {
     params: {
       q: searchText,
       size: pageSize,
       page: currentPage,
     },
   });
-
-  return data;
 };
 
 export const getItem = async id => {
-  const { data } = await commonAxios.get(id);
-  return data;
+  return await commonAxios.get(id);
 };
 
 export const addItem = async item => {
-  const { data } = await commonAxios.post('items', item);
-  return data;
+  return await commonAxios.post('items', item);
 };
 
 export const editItem = async item => {
-  const { data } = await commonAxios.put('items/' + item.id, item);
-  return data;
+  return await commonAxios.put('items/' + item.id, item);
 };
 
 export const removeItem = async id => {
-  const { data } = await commonAxios.delete(id);
-  return data;
+  return await commonAxios.delete('items/' + id);
 };
 
 export default {

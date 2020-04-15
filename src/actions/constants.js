@@ -1,14 +1,20 @@
-export const DISMISS_MESSAGE = 'message/dismiss';
+export const DISMISS_MESSAGE = 'DISMISS_MESSAGE';
+export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST';
+export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';
+export const GET_ITEMS_FAILURE = 'GET_ITEMS_FAILURE';
+export const SET_ITEMS_SEARCH = 'SET_ITEMS_SEARCH';
 
-export const GET_ITEMS_REQUEST = 'items/getAll/request';
-export const GET_ITEMS_SUCCESS = 'items/getAll/success';
-export const GET_ITEMS_FAILURE = 'items/getAll/failure';
-export const SET_ITEMS_SEARCH = 'items/search/set';
+export const GET_ITEM_REQUEST = 'GET_ITEM_REQUEST';
+export const GET_ITEM_SUCCESS = 'GET_ITEM_SUCCESS';
+export const GET_ITEM_FAILURE = 'GET_ITEM_FAILURE';
 
-export const GET_ITEM_REQUEST = 'items/get/request';
-export const GET_ITEM_SUCCESS = 'items/get/success';
-export const GET_ITEM_FAILURE = 'items/get/failure';
+export const SAVE_ITEM_REQUEST = 'SAVE_ITEM_REQUEST';
+export const SAVE_ITEM_SUCCESS = 'SAVE_ITEM_SUCCESS';
+export const SAVE_ITEM_FAILURE = 'SAVE_ITEM_FAILURE';
 
-export const SAVE_ITEM_REQUEST = 'items/save/request';
-export const SAVE_ITEM_SUCCESS = 'items/save/success';
-export const SAVE_ITEM_FAILURE = 'items/save/failure';
+export const REMOVE_ITEM_ERRORS = 'REMOVE_ITEM_ERRORS';
+export const RESET_ITEM_SAVED = 'RESET_ITEM_SAVED';
+
+export const REMOVE_ITEM_REQUEST = 'REMOVE_ITEM_REQUEST';
+export const REMOVE_ITEM_SUCCESS = 'REMOVE_ITEM_SUCCESS';
+export const REMOVE_ITEM_FAILURE = 'REMOVE_ITEM_FAILURE';

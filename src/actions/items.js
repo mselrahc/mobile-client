@@ -3,6 +3,7 @@ import {
   GET_ITEM_REQUEST,
   SAVE_ITEM_REQUEST,
   SET_ITEMS_SEARCH,
+  REMOVE_ITEM_REQUEST,
 } from './constants';
 
 function getItems(fromBeginning = true) {
@@ -21,7 +22,7 @@ function getMoreItems() {
 function setItemSearch(text) {
   return {
     type: SET_ITEMS_SEARCH,
-    payload: text,
+    payload: { text },
   };
 }
 
@@ -39,4 +40,11 @@ function saveItem(item) {
   };
 }
 
-export { getItems, getMoreItems, setItemSearch, getItem, saveItem };
+function removeItem(id) {
+  return {
+    type: REMOVE_ITEM_REQUEST,
+    payload: { id },
+  };
+}
+
+export { getItems, getMoreItems, setItemSearch, getItem, saveItem, removeItem };

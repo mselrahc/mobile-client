@@ -6,6 +6,9 @@ import {
   SAVE_ITEM_FAILURE,
   SAVE_ITEM_REQUEST,
   SAVE_ITEM_SUCCESS,
+  REMOVE_ITEM_FAILURE,
+  REMOVE_ITEM_SUCCESS,
+  REMOVE_ITEM_REQUEST,
 } from '../actions/constants';
 import api from '../api/itemsAPI';
 import Message from '../utils/message';
@@ -44,12 +47,16 @@ export function* saveItem({ payload }) {
       item,
     );
 
-    yield put({ type: SAVE_ITEM_SUCCESS, payload: data });
+    const text = (item.id === undefined ? 'Add' : 'Edit') + ' success';
+    yield put({
+      type: SAVE_ITEM_SUCCESS,
+      payload: { data, message: Message.success(text) },
+    });
   } catch (error) {
     yield put({
       type: SAVE_ITEM_FAILURE,
       payload: {
-        data: error.data,
+        errors: error.data,
         message: Message.error(error.message),
       },
     });
@@ -58,4 +65,28 @@ export function* saveItem({ payload }) {
 
 export function* watchSaveItem() {
   yield takeLatest(SAVE_ITEM_REQUEST, saveItem);
+}
+
+export function* removeItem({ payload }) {
+  try {
+    const { id } = payload;
+    const data = yield call(api.removeItem, id);
+
+    yield put({
+      type: REMOVE_ITEM_SUCCESS,
+      payload: { data, message: Message.success('Remove success') },
+    });
+  } catch (error) {
+    yield put({
+      type: REMOVE_ITEM_FAILURE,
+      payload: {
+        errors: error.data,
+        message: Message.error(error.message),
+      },
+    });
+  }
+}
+
+export function* watchRemoveItem() {
+  yield takeLatest(REMOVE_ITEM_REQUEST, removeItem);
 }

@@ -1,21 +1,42 @@
 import { Button, Form, Input, Item, Label, Text } from 'native-base';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveItem } from '../../actions/items';
+import { removeError, removeSaved } from '../../actions/item';
 
-function ItemDetailScreen({ route }) {
+function ItemDetailScreen({ navigation, route }) {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector(state => state.items);
+  const { itemSaved, isLoading, validationErrors } = useSelector(
+    state => state.item,
+  );
+
+  if (itemSaved) {
+    navigation.navigate('Items List');
+  }
+
   const [item, setItem] = useState(route.params.item || {});
 
-  const setName = name => setItem(prevItem => ({ ...prevItem, name }));
-  const submitItem = () => dispatch(saveItem(item));
+  const setName = name => {
+    setItem(prevItem => ({ ...prevItem, name }));
+    dispatch(removeError('name'));
+  };
+
+  const submitItem = () => {
+    dispatch(saveItem(item));
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(removeSaved());
+      dispatch(removeError());
+    };
+  }, [dispatch]);
 
   return (
     <ScrollView>
       <Form>
-        <Item floatingLabel>
+        <Item floatingLabel error={!!validationErrors?.name}>
           <Label>Name</Label>
           <Input
             value={item?.name}
@@ -23,6 +44,7 @@ function ItemDetailScreen({ route }) {
             style={styles.input}
           />
         </Item>
+        {validationErrors?.name && <Text>{validationErrors.name[0]}</Text>}
         <Button style={styles.button} onPress={submitItem} disabled={isLoading}>
           <Text>Save</Text>
         </Button>

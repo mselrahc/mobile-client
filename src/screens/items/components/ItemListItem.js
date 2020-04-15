@@ -11,9 +11,9 @@ import {
   Button,
 } from 'native-base';
 
-function ItemListItem({ navigation, item }) {
+function ItemListItem({ onRowPress, onRemovePress, item }) {
   return (
-    <ListItem onPress={() => navigation.navigate('Item Detail', { item })}>
+    <ListItem onPress={onRowPress} thumbnail>
       <Left>
         <Thumbnail
           square
@@ -27,7 +27,7 @@ function ItemListItem({ navigation, item }) {
         <Text>{item.name}</Text>
       </Body>
       <Right>
-        <Button transparent>
+        <Button transparent onPress={onRemovePress}>
           <Icon name="close" />
         </Button>
       </Right>

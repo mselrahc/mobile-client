@@ -1,17 +1,17 @@
+import { normalize } from '../utils/normalize';
 import {
   GET_ITEMS_FAILURE,
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
   SET_ITEMS_SEARCH,
-  SAVE_ITEM_REQUEST,
   SAVE_ITEM_SUCCESS,
-  SAVE_ITEM_FAILURE,
+  REMOVE_ITEM_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
-  data: [],
+  data: {},
   nextPage: 0,
-  pageSize: 5,
+  pageSize: 10,
   totalCount: 0,
   searchText: '',
   isLoading: false,
@@ -19,18 +19,20 @@ const initialState = {
 
 function items(state = initialState, { type, payload }) {
   switch (type) {
-    case GET_ITEMS_REQUEST:
+    case GET_ITEMS_REQUEST: {
       const { data, nextPage } = payload.fromBeginning ? initialState : state;
+
       return {
         ...state,
         data,
         nextPage,
         isLoading: true,
       };
+    }
     case GET_ITEMS_SUCCESS:
       return {
         ...state,
-        data: [...state.data, ...payload.list],
+        data: { ...state.data, ...normalize(payload.list) },
         totalCount: payload.total,
         nextPage: state.nextPage + 1,
         isLoading: false,
@@ -43,26 +45,36 @@ function items(state = initialState, { type, payload }) {
     case SET_ITEMS_SEARCH:
       return {
         ...state,
-        searchText: payload,
+        searchText: payload.text,
       };
-    case SAVE_ITEM_REQUEST:
+    case SAVE_ITEM_SUCCESS: {
+      const { data, searchText } = state;
+      const { data: newItem } = payload;
+
       return {
         ...state,
-        isLoading: true,
+        data: filterItems({ ...data, [payload.data.id]: newItem }, searchText),
       };
-    case SAVE_ITEM_SUCCESS:
+    }
+    case REMOVE_ITEM_SUCCESS: {
+      const { [payload.data.id]: removed, ...rest } = state.data;
+
       return {
         ...state,
-        isLoading: false,
+        data: rest,
       };
-    case SAVE_ITEM_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-      };
+    }
     default:
       return state;
   }
+}
+
+function filterItems(itemsObject, searchText) {
+  return normalize(
+    Object.values(itemsObject).filter(item =>
+      item.name.toLowerCase().includes(searchText.toLowerCase()),
+    ),
+  );
 }
 
 export default items;
