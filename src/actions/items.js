@@ -33,10 +33,10 @@ function getItem(id) {
   };
 }
 
-function saveItem(item) {
+function saveItem(item, onSaveSuccess, onSaveFailure) {
   return {
     type: SAVE_ITEM_REQUEST,
-    payload: { item },
+    payload: { item, onSaveSuccess, onSaveFailure },
   };
 }
 

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import itemsReducer from './items';
 import messageReducer from './message';
-import itemReducer from './item';
+import { unitsReducer } from '../slices/units';
 
 const rootReducer = combineReducers({
   items: itemsReducer,
-  item: itemReducer,
   message: messageReducer,
+  units: unitsReducer,
 });
 
 export default rootReducer;

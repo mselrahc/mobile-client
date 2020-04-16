@@ -4,3 +4,7 @@ export function normalize(data, keyMapper = item => item.id) {
     {},
   );
 }
+
+export function filterNormalized(data, filter) {
+  return normalize(Object.values(data).filter(filter));
+}

@@ -1,4 +1,4 @@
-import { normalize } from '../utils/normalize';
+import { normalize, filterNormalized } from '../utils/normalize';
 import {
   GET_ITEMS_FAILURE,
   GET_ITEMS_REQUEST,
@@ -7,6 +7,7 @@ import {
   SAVE_ITEM_SUCCESS,
   REMOVE_ITEM_SUCCESS,
 } from '../actions/constants';
+import { includes } from '../utils/string';
 
 const initialState = {
   data: {},
@@ -70,11 +71,8 @@ function items(state = initialState, { type, payload }) {
 }
 
 function filterItems(itemsObject, searchText) {
-  return normalize(
-    Object.values(itemsObject).filter(item =>
-      item.name.toLowerCase().includes(searchText.toLowerCase()),
-    ),
-  );
+  const itemFilter = item => includes(item.name, searchText);
+  return filterNormalized(itemsObject, itemFilter);
 }
 
 export default items;

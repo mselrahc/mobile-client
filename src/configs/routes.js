@@ -7,6 +7,8 @@ import {
   ItemsScreensStack,
 } from '../screens/items';
 import { UnitsListScreen } from '../screens/units';
+import UnitDetailScreen from '../screens/units/UnitDetailScreen';
+import UnitsScreenStack from '../screens/units/UnitsScreenStack';
 
 export const appRoutes = [
   { name: 'Login', component: LoginScreen },
@@ -20,7 +22,7 @@ export const mainRoutes = [
     component: DashboardScreen,
   },
   { name: 'Items', iconName: 'hexagon-multiple', component: ItemsScreensStack },
-  { name: 'Units', iconName: 'weight', component: UnitsListScreen },
+  { name: 'Units', iconName: 'weight', component: UnitsScreenStack },
   {
     name: 'Stocks',
     iconName: 'package-variant-closed',
@@ -32,4 +34,9 @@ export const mainRoutes = [
 export const itemsRoutes = [
   { name: 'Items List', component: ItemsListScreen },
   { name: 'Item Detail', component: ItemDetailScreen },
+];
+
+export const unitsRoutes = [
+  { name: 'Units List', component: UnitsListScreen },
+  { name: 'Unit Detail', component: UnitDetailScreen },
 ];

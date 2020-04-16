@@ -12,15 +12,20 @@ import {
 } from 'native-base';
 
 function ItemListItem({ onRowPress, onRemovePress, item }) {
+  const loadingIndicator = require('../../../../assets/images/loading.png');
+  const image = `https://i.picsum.photos/id/${Math.floor(
+    Math.random() * 1000,
+  )}/200/200.jpg`;
+
   return (
     <ListItem onPress={onRowPress} thumbnail>
       <Left>
         <Thumbnail
           square
           source={{
-            uri:
-              'https://static.republika.co.id/uploads/images/inpicture_slide/secangkir-teh-_190524103045-721.jpg',
+            uri: image,
           }}
+          loadingIndicatorSource={loadingIndicator}
         />
       </Left>
       <Body>

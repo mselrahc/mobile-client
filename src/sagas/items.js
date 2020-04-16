@@ -24,7 +24,10 @@ export function* getItems() {
       currentPage: nextPage,
       pageSize,
     });
-    yield put({ type: GET_ITEMS_SUCCESS, payload: data });
+    yield put({
+      type: GET_ITEMS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     yield put({
       type: GET_ITEMS_FAILURE,
@@ -41,7 +44,7 @@ export function* watchGetItems() {
 
 export function* saveItem({ payload }) {
   try {
-    const { item } = payload;
+    const { item, onSaveSuccess } = payload;
     const data = yield call(
       item.id === undefined ? api.addItem : api.editItem,
       item,
@@ -50,16 +53,20 @@ export function* saveItem({ payload }) {
     const text = (item.id === undefined ? 'Add' : 'Edit') + ' success';
     yield put({
       type: SAVE_ITEM_SUCCESS,
-      payload: { data, message: Message.success(text) },
+      payload: {
+        data,
+        message: Message.success(text),
+      },
     });
+    onSaveSuccess();
   } catch (error) {
     yield put({
       type: SAVE_ITEM_FAILURE,
       payload: {
-        errors: error.data,
         message: Message.error(error.message),
       },
     });
+    payload.onSaveFailure(error.data);
   }
 }
 
@@ -74,7 +81,10 @@ export function* removeItem({ payload }) {
 
     yield put({
       type: REMOVE_ITEM_SUCCESS,
-      payload: { data, message: Message.success('Remove success') },
+      payload: {
+        data,
+        message: Message.success('Remove success'),
+      },
     });
   } catch (error) {
     yield put({

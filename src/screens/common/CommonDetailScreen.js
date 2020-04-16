@@ -1,17 +1,22 @@
-import { Button, Form, Input, Item, Label, Text } from 'native-base';
+import { Button, Form, Text } from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { saveItem } from '../../actions/items';
 
-function ItemDetailScreen({ navigation, route }) {
+function CommonDetailScreen({
+  navigation,
+  route,
+  save,
+  listScreenName,
+  formContentComponent,
+}) {
   const dispatch = useDispatch();
-  const [item, setItem] = useState(route.params.item || {});
+  const [entity, setEntity] = useState(route.params.entity || {});
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const setItemValue = (name, value) => {
-    setItem(prevItem => ({ ...prevItem, [name]: value }));
+  const setEntityValue = (name, value) => {
+    setEntity({ ...entity, [name]: value });
     removeError(name);
   };
 
@@ -26,31 +31,31 @@ function ItemDetailScreen({ navigation, route }) {
 
   const onSaveSuccess = () => {
     setIsLoading(false);
-    navigation.navigate('Items List');
+    navigation.navigate(listScreenName);
   };
   const onSaveFailure = saveError => {
     setIsLoading(false);
     setErrors(saveError);
   };
 
-  const submitItem = () => {
+  const saveEntity = () => {
     setIsLoading(true);
-    dispatch(saveItem(item, onSaveSuccess, onSaveFailure));
+    dispatch(save(route.params.id, entity, onSaveSuccess, onSaveFailure));
   };
+
+  const FormContent = formContentComponent;
 
   return (
     <ScrollView>
       <Form>
-        <Item floatingLabel error={!!errors?.name}>
-          <Label>Name</Label>
-          <Input
-            value={item?.name}
-            onChangeText={value => setItemValue('name', value)}
-            style={styles.input}
+        {formContentComponent && (
+          <FormContent
+            entity={entity}
+            setEntityValue={setEntityValue}
+            errors={errors}
           />
-        </Item>
-        {errors?.name && <Text>{errors.name[0]}</Text>}
-        <Button style={styles.button} onPress={submitItem} disabled={isLoading}>
+        )}
+        <Button style={styles.button} onPress={saveEntity} disabled={isLoading}>
           <Text>{isLoading ? 'Saving...' : 'Save'}</Text>
         </Button>
       </Form>
@@ -65,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemDetailScreen;
+export default CommonDetailScreen;

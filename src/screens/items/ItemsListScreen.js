@@ -64,6 +64,7 @@ function ItemsListScreen({ navigation }) {
             value={searchText}
             placeholder="Search"
             onChangeText={text => dispatch(setItemSearch(text))}
+            returnKeyType="search"
           />
           <Icon name="search" />
         </Item>
