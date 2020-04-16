@@ -1,19 +1,11 @@
 import { debounce } from 'debounce';
-import {
-  Button,
-  Container,
-  Fab,
-  Header,
-  Icon,
-  Input,
-  Item,
-  Text,
-} from 'native-base';
-import React, { useEffect, useCallback } from 'react';
+import { Container, Fab, Header, Icon } from 'native-base';
+import React, { useCallback, useEffect } from 'react';
 import { Alert, FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import useDidUpdateEffect from '../../hooks/useDidUpdateEffect';
 import SearchInput from '../../components/SearchInput';
+import useDidUpdateEffect from '../../hooks/useDidUpdateEffect';
+import ListEmptyComponent from '../../components/ListEmptyComponent';
 
 const debouncedRefresh = debounce(refresh => refresh(), 200);
 
@@ -32,7 +24,10 @@ function CommonListScreen({
   const dataArray = useSelector(selectors.getDataArray);
   const hasMore = useSelector(selectors.getHasMore);
 
-  const refresh = useCallback(() => dispatch(actions.getAll()), [actions]);
+  const refresh = useCallback(() => dispatch(actions.getAll()), [
+    actions,
+    dispatch,
+  ]);
 
   const loadMore = () => {
     if (hasMore) {
@@ -65,7 +60,11 @@ function CommonListScreen({
   }, [refresh]);
 
   useDidUpdateEffect(() => {
-    debouncedRefresh(refresh);
+    if (searchText) {
+      debouncedRefresh(refresh);
+    } else {
+      refresh();
+    }
   }, [refresh, searchText]);
 
   const ListRow = rowComponent;
@@ -94,7 +93,7 @@ function CommonListScreen({
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={() =>
-          isLoading ? null : <Text>No {entityName} found</Text>
+          isLoading ? null : <ListEmptyComponent name={entityName} />
         }
       />
       <Fab position="bottomRight" onPress={() => goToDetail()}>

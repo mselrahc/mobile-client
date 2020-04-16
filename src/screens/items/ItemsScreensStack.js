@@ -1,16 +1,9 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { itemsRoutes } from '../../configs/routes';
-const Stack = createStackNavigator();
+import CommonStack from '../common/CommonStack';
 
-function ItemsScreensStack() {
-  return (
-    <Stack.Navigator>
-      {itemsRoutes.map(({ name, component }, i) => (
-        <Stack.Screen key={i} name={name} component={component} />
-      ))}
-    </Stack.Navigator>
-  );
+function UnitsScreenStack() {
+  return <CommonStack routes={itemsRoutes} />;
 }
 
-export default ItemsScreensStack;
+export default UnitsScreenStack;

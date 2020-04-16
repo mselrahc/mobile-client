@@ -11,7 +11,7 @@ import {
   Button,
 } from 'native-base';
 
-function ItemListItem({ onRowPress, onRemovePress, item }) {
+function ItemRow({ onRowPress, onRemovePress, item }) {
   const loadingIndicator = require('../../../../assets/images/loading.png');
   const image = `https://i.picsum.photos/id/${Math.floor(
     Math.random() * 1000,
@@ -40,4 +40,4 @@ function ItemListItem({ onRowPress, onRemovePress, item }) {
   );
 }
 
-export default ItemListItem;
+export default ItemRow;
