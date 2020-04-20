@@ -29,7 +29,9 @@ function createCommonSaga(entityName, api, actionTypes) {
   function* save({ payload }) {
     try {
       const { id, entity, onSaveSuccess } = payload;
-      const data = yield call(id === undefined ? api.add : api.edit, entity);
+      const data = yield id === undefined
+        ? call(api.add, entity)
+        : call(api.edit, id, entity);
 
       const text = (entity.id === undefined ? 'Add' : 'Edit') + ' success';
       yield put({

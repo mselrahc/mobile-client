@@ -1,25 +1,47 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import store from './configs/store';
-import React from 'react';
-import 'react-native-gesture-handler';
-import { Provider } from 'react-redux';
-import { appRoutes } from './configs/routes';
 import { Root } from 'native-base';
+import React, { useEffect } from 'react';
+import 'react-native-gesture-handler';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { restoreToken } from './actions/auth';
 import AppToast from './components/AppToast';
+import store from './configs/store';
+import { MainScreenTab } from './screens';
+import { LoginScreen, SplashScreen } from './screens/auth';
+
+console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
+
+function AppNavigator() {
+  const dispatch = useDispatch();
+  const { token, isLoading } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(restoreToken());
+  }, [dispatch]);
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator headerMode="none">
+        {isLoading ? (
+          <Stack.Screen name="Splash" component={SplashScreen} />
+        ) : token === null ? (
+          <Stack.Screen name="Login" component={LoginScreen} />
+        ) : (
+          <Stack.Screen name="Main" component={MainScreenTab} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 function App() {
   return (
     <Provider store={store}>
       <Root>
-        <NavigationContainer>
-          <Stack.Navigator headerMode="none">
-            {appRoutes.map(({ name, component }, i) => (
-              <Stack.Screen key={i} name={name} component={component} />
-            ))}
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppNavigator />
         <AppToast />
       </Root>
     </Provider>

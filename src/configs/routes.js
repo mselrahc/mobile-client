@@ -1,19 +1,32 @@
 import { MainScreenTab } from '../screens';
-import { LoginScreen } from '../screens/auth';
+import { LoginScreen, SplashScreen } from '../screens/auth';
 import { DashboardScreen } from '../screens/dashboard';
 import {
   ItemDetailScreen,
   ItemsListScreen,
   ItemsScreensStack,
 } from '../screens/items';
-import { UnitsListScreen } from '../screens/units';
-import UnitDetailScreen from '../screens/units/UnitDetailScreen';
-import UnitsScreenStack from '../screens/units/UnitsScreenStack';
+import {
+  UnitsListScreen,
+  UnitsScreenStack,
+  UnitDetailScreen,
+} from '../screens/units';
+import {
+  StocksScreenStack,
+  StockDetailScreen,
+  StocksListScreen,
+} from '../screens/stocks';
+import {
+  TransactionsListScreen,
+  TransactionDetailScreen,
+  TransactionsScreenStack,
+} from '../screens/transactions';
 
-export const appRoutes = [
-  { name: 'Login', component: LoginScreen },
-  { name: 'Main', component: MainScreenTab },
-];
+// export const appRoutes = [
+//   { name: 'Splash', component: SplashScreen },
+//   { name: 'Login', component: LoginScreen },
+//   { name: 'Main', component: MainScreenTab },
+// ];
 
 export const mainRoutes = [
   {
@@ -26,9 +39,13 @@ export const mainRoutes = [
   {
     name: 'Stocks',
     iconName: 'package-variant-closed',
-    component: UnitsListScreen,
+    component: StocksScreenStack,
   },
-  { name: 'Transaction', iconName: 'cash-usd', component: ItemsScreensStack },
+  {
+    name: 'Transaction',
+    iconName: 'cash-usd',
+    component: TransactionsScreenStack,
+  },
 ];
 
 export const itemsRoutes = [
@@ -39,4 +56,14 @@ export const itemsRoutes = [
 export const unitsRoutes = [
   { name: 'Units List', component: UnitsListScreen },
   { name: 'Unit Detail', component: UnitDetailScreen },
+];
+
+export const stocksRoutes = [
+  { name: 'Stocks List', component: StocksListScreen },
+  { name: 'Stock Detail', component: StockDetailScreen },
+];
+
+export const transactionsRoutes = [
+  { name: 'Transactions List', component: TransactionsListScreen },
+  { name: 'Transaction Detail', component: TransactionDetailScreen },
 ];

@@ -14,18 +14,17 @@ const Status = {
 function createCommonActionType(entity) {
   entity = entity.toUpperCase();
   return {
-    getAll: createAsyncActionType(Action.GET_ALL, entity),
-    get: createAsyncActionType(Action.GET, entity),
-    save: createAsyncActionType(Action.SAVE, entity),
-    remove: createAsyncActionType(Action.REMOVE, entity),
+    getAll: createAsyncActionType(`${Action.GET_ALL}_${entity}`),
+    get: createAsyncActionType(`${Action.GET}_${entity}`),
+    save: createAsyncActionType(`${Action.SAVE}_${entity}`),
+    remove: createAsyncActionType(`${Action.REMOVE}_${entity}`),
     set: {
       searchText: `SET_${entity}_SEARCH`,
     },
   };
 }
 
-function createAsyncActionType(action, entity) {
-  const prefix = `${action}_${entity}`;
+function createAsyncActionType(prefix) {
   return {
     request: `${prefix}_${Status.REQUEST}`,
     success: `${prefix}_${Status.SUCCESS}`,
@@ -33,4 +32,4 @@ function createAsyncActionType(action, entity) {
   };
 }
 
-export { createCommonActionType };
+export { createCommonActionType, createAsyncActionType };

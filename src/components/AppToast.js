@@ -14,7 +14,6 @@ function AppToast() {
         buttonText: 'close',
         type: message?.type,
         duration: 3000,
-        position: 'top',
         onClose: () => dispatch(dismissMessage()),
       });
     }

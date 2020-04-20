@@ -16,12 +16,12 @@ function createCommonAPI(pathname) {
       return await commonAxios.get(id);
     },
 
-    add: async item => {
-      return await commonAxios.post(pathname, item);
+    add: async entity => {
+      return await commonAxios.post(pathname, entity);
     },
 
-    edit: async item => {
-      return await commonAxios.put(`${pathname}/${item.id}`, item);
+    edit: async (id, entity) => {
+      return await commonAxios.put(`${pathname}/${entity.id}`, entity);
     },
 
     remove: async id => {
