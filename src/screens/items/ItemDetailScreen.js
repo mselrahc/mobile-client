@@ -16,7 +16,7 @@ function ItemFormContent({ entity: item, setEntityValue: setItem, errors }) {
   );
 }
 
-function UnitDetailScreen(props) {
+function ItemDetailScreen(props) {
   return (
     <CommonDetailScreen
       {...props}
@@ -27,4 +27,4 @@ function UnitDetailScreen(props) {
   );
 }
 
-export default UnitDetailScreen;
+export default ItemDetailScreen;
