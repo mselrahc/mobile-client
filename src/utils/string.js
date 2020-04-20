@@ -15,3 +15,7 @@ export function formatMoney(amount) {
       .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   );
 }
+
+export function isNotBlankDigitString(string) {
+  return typeof string === 'string' && /\d+/.test(string);
+}

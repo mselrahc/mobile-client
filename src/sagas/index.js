@@ -4,6 +4,7 @@ import { unitSagas } from '../slices/units';
 import { stockSagas } from '../slices/stocks';
 import { transactionSagas } from '../slices/transactions';
 import { watchLogin, watchLogout, watchRestoreToken } from './auth';
+import { watchGetStockSummary, watchGetTransactionSummary } from './summary';
 
 const rootSaga = function*() {
   const sagas = [
@@ -14,6 +15,8 @@ const rootSaga = function*() {
     ...Object.values(unitSagas),
     ...Object.values(stockSagas),
     ...Object.values(transactionSagas),
+    watchGetStockSummary,
+    watchGetTransactionSummary,
   ];
   yield all(sagas.map(saga => fork(saga)));
 };

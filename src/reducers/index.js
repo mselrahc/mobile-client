@@ -5,6 +5,8 @@ import { transactionsReducer } from '../slices/transactions';
 import { unitsReducer } from '../slices/units';
 import messageReducer from './message';
 import authReducer from './auth';
+import stockSummaryReducer from './stockSummary';
+import transactionSummaryReducer from './transactionSummary';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   units: unitsReducer,
   stocks: stocksReducer,
   transactions: transactionsReducer,
+  stockSummary: stockSummaryReducer,
+  transactionSummary: transactionSummaryReducer,
 });
 
 export default rootReducer;

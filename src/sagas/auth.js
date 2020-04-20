@@ -1,25 +1,35 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { put, takeLatest, call } from 'redux-saga/effects';
-import { loginFailure, loginSuccess } from '../actions/auth';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { LOGIN, LOGOUT, RESTORE_TOKEN } from '../actions/constants';
 import { commonAxios } from '../utils/api';
+import Message from '../utils/message';
 
 function* login({ payload }) {
   const { userdata, onLoginSuccess, onLoginFailure } = payload;
   try {
     const data = yield commonAxios.post('auth/signin', userdata);
     const { username, token } = data;
-    console.log('login', username, token);
 
     yield AsyncStorage.setItem('username', username);
     yield AsyncStorage.setItem('token', token);
 
-    yield put(loginSuccess(username, token));
+    yield put({
+      type: LOGIN.success,
+      payload: {
+        username,
+        token,
+      },
+    });
     if (typeof onLoginSuccess === 'function') {
       onLoginSuccess();
     }
   } catch (error) {
-    yield put(loginFailure(error));
+    yield put({
+      type: LOGIN.failure,
+      payload: {
+        message: Message.error(error.message),
+      },
+    });
     if (typeof onLoginFailure === 'function') {
       onLoginFailure();
     }
@@ -42,16 +52,27 @@ export function* watchLogout() {
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 function* restoreToken() {
-  yield call(delay, 2000);
+  yield call(delay, 1000);
   try {
     const username = yield AsyncStorage.getItem('username');
     const token = yield AsyncStorage.getItem('token');
-    yield put(loginSuccess(username, token));
+    yield put({
+      type: RESTORE_TOKEN.success,
+      payload: {
+        username,
+        token,
+      },
+    });
   } catch (error) {
-    yield put(loginFailure(error));
+    yield put({
+      type: RESTORE_TOKEN.failure,
+      payload: {
+        message: Message.error(error.message),
+      },
+    });
   }
 }
 
 export function* watchRestoreToken() {
-  yield takeLatest(RESTORE_TOKEN, restoreToken);
+  yield takeLatest(RESTORE_TOKEN.request, restoreToken);
 }

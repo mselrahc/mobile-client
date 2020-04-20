@@ -1,15 +1,14 @@
-import React from 'react';
-
 import {
   Body,
+  Button,
   Icon,
   Left,
   ListItem,
   Right,
   Text,
   Thumbnail,
-  Button,
 } from 'native-base';
+import React from 'react';
 
 function ItemRow({ onRowPress, onRemovePress, item }) {
   const loadingIndicator = require('../../../../assets/images/loading.png');

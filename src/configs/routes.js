@@ -1,38 +1,34 @@
-import { MainScreenTab } from '../screens';
-import { LoginScreen, SplashScreen } from '../screens/auth';
-import { DashboardScreen } from '../screens/dashboard';
+import {
+  SummaryScreenTab,
+  StockSummaryScreen,
+  TransactionSummaryScreen,
+} from '../screens/summary';
 import {
   ItemDetailScreen,
   ItemsListScreen,
   ItemsScreensStack,
 } from '../screens/items';
 import {
-  UnitsListScreen,
-  UnitsScreenStack,
-  UnitDetailScreen,
-} from '../screens/units';
-import {
-  StocksScreenStack,
   StockDetailScreen,
   StocksListScreen,
+  StocksScreenStack,
 } from '../screens/stocks';
 import {
-  TransactionsListScreen,
   TransactionDetailScreen,
+  TransactionsListScreen,
   TransactionsScreenStack,
 } from '../screens/transactions';
-
-// export const appRoutes = [
-//   { name: 'Splash', component: SplashScreen },
-//   { name: 'Login', component: LoginScreen },
-//   { name: 'Main', component: MainScreenTab },
-// ];
+import {
+  UnitDetailScreen,
+  UnitsListScreen,
+  UnitsScreenStack,
+} from '../screens/units';
 
 export const mainRoutes = [
   {
     name: 'Dashboard',
     iconName: 'view-dashboard',
-    component: DashboardScreen,
+    component: SummaryScreenTab,
   },
   { name: 'Items', iconName: 'hexagon-multiple', component: ItemsScreensStack },
   { name: 'Units', iconName: 'weight', component: UnitsScreenStack },
@@ -46,6 +42,11 @@ export const mainRoutes = [
     iconName: 'cash-usd',
     component: TransactionsScreenStack,
   },
+];
+
+export const dashboardRoutes = [
+  { name: 'Transaction Summary', component: TransactionSummaryScreen },
+  { name: 'Stock Summary', component: StockSummaryScreen },
 ];
 
 export const itemsRoutes = [
