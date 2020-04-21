@@ -1,15 +1,12 @@
-import { Text, View, Content, Button, Icon } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { BarChart, LineChart } from 'react-native-chart-kit';
+import { Button, Icon, Text, View } from 'native-base';
+import React, { useEffect } from 'react';
+import { Dimensions, StyleSheet } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionSummary } from '../../actions/summary';
 import { types } from '../../configs/transactions';
-import {
-  localeDateFromString,
-  localeDateTimeFromString,
-} from '../../utils/date';
+import { localeDateTimeFromString } from '../../utils/date';
 import { formatMoney } from '../../utils/string';
-import { Dimensions, StyleSheet } from 'react-native';
 
 const splitDate = date => {
   return {
@@ -23,28 +20,11 @@ function TransactionSummaryScreen() {
   const today = splitDate(new Date());
   const dispatch = useDispatch();
   const { data, isLoading } = useSelector(state => state.transactionSummary);
-  const {
-    entries,
-    transactionCount,
-    profit,
-    from,
-    to,
-    createdDate: lastUpdated,
-  } = data;
+  const { entries, transactionCount, profit, createdDate: lastUpdated } = data;
 
   useEffect(() => {
     dispatch(getTransactionSummary(today));
-  }, []);
-
-  const localeFrom = localeDateFromString(from);
-  const localeTo = localeDateFromString(to);
-  const transactionDateText = from
-    ? localeFrom === localeTo
-      ? `transactions on ${localeFrom}`
-      : `transactions from ${localeFrom} to ${localeTo}`
-    : isLoading
-    ? ''
-    : 'data available';
+  }, [dispatch]);
 
   const loadSummary = date => {
     dispatch(getTransactionSummary(date));
@@ -67,7 +47,7 @@ function TransactionSummaryScreen() {
         <>
           {transactionCount ? (
             <>
-              <Text>Showing {transactionDateText}</Text>
+              <Text>Showing today's transactions</Text>
               <Text>{transactionCount} total transactions</Text>
               <Text>{formatMoney(profit)}</Text>
               <View style={styles.chart}>
@@ -106,7 +86,7 @@ function TransactionSummaryScreen() {
               </View>
             </>
           ) : (
-            <Text>No {transactionDateText}</Text>
+            <Text>No transactions today</Text>
           )}
           <Text>Last Updated: {localeDateTimeFromString(lastUpdated)}</Text>
         </>

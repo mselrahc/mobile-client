@@ -1,10 +1,8 @@
-import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import StockSummaryScreen from './StockSummaryScreen';
-import { View, Text, Button } from 'native-base';
+import { Body, Button, Header, Icon, Right, Title } from 'native-base';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions/auth';
-import { useSelector, useDispatch } from 'react-redux';
-import TransactionSummaryScreen from './TransactionSummaryScreen';
 import { dashboardRoutes } from '../../configs/routes';
 
 const Tab = createMaterialTopTabNavigator();
@@ -18,13 +16,16 @@ function SummaryScreenTab() {
 
   return (
     <>
-      <View>
-        <Text>Dashboard</Text>
-        <Text>Welcome, {username}</Text>
-        <Button onPress={doLogout}>
-          <Text>Log out</Text>
-        </Button>
-      </View>
+      <Header>
+        <Body>
+          <Title>{username}</Title>
+        </Body>
+        <Right>
+          <Button onPress={doLogout}>
+            <Icon name="power" />
+          </Button>
+        </Right>
+      </Header>
       <Tab.Navigator>
         {dashboardRoutes.map(route => (
           <Tab.Screen name={route.name} component={route.component} />

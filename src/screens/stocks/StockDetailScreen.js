@@ -9,13 +9,13 @@ function StockFormContent({ entity: stock, setEntityValue: setStock, errors }) {
       <CommonInputField
         label="Item"
         value={stock?.item?.name}
-        onChangeText={value => setStock('item', value)}
+        onChangeText={value => setStock('item', { id: value })}
         errors={errors?.item}
       />
       <CommonInputField
         label="Unit"
         value={stock?.unit?.name}
-        onChangeText={value => setStock('unit', value)}
+        onChangeText={value => setStock('unit', { id: value })}
         errors={errors?.unit}
       />
       <CommonInputField

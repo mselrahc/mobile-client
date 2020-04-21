@@ -22,7 +22,6 @@ commonAxios.interceptors.request.use(config => {
 
 commonAxios.interceptors.response.use(axiosResponse => {
   const { data: response } = axiosResponse;
-
   if (response.code !== 0) {
     const error = new Error(response.message || 'Unknown Error');
     error.data = response.data;
